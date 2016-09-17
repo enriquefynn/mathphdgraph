@@ -73,6 +73,7 @@ $(function(){ // on dom ready
                         $("#option_table").empty();
 
                         var idx = $(this).index() - 1;
+                        if (idx == -1) idx = 0;
                         //FIXME: Duplicate code
                         return $.ajax('http://localhost:8080?id=' + data[idx].id, {}).then(function(new_data){
                             $('#search').button('reset');
