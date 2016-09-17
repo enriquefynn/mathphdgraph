@@ -29,38 +29,6 @@ $(function(){ // on dom ready
             });
     }
     var cy = createCY();
-        /*$.ajax('http://localhost:8080?id=103720', {}).done(function(data){
-        vertexes = [{data: {id: 103720, name: 'Fernando Pedone'}}];
-        edges = [];
-        for (var v in data.vtx)
-            vertexes.push({data: {id: data.vtx[v].id, name: data.vtx[v].name}})
-        for (var e in data.edg)
-            edges.push({data: {source: data.edg[e].from, target: data.edg[e].to}});
-        cy.add(vertexes);
-        cy.add(edges);
-        cy.layout({
-            name: 'dagre'
-        });
-        cy.fit();
-        console.log(data);
-    });
-
-    $.ajax('http://localhost:8080/search?id=103720', {}).done(function(data){
-        vertexes = [{data: {id: 103720, name: 'Fernando Pedone'}}];
-        edges = [];
-        for (var v in data.vtx)
-            vertexes.push({data: {id: data.vtx[v].id, name: data.vtx[v].name}})
-        for (var e in data.edg)
-            edges.push({data: {source: data.edg[e].from, target: data.edg[e].to}});
-        cy.add(vertexes);
-        cy.add(edges);
-        cy.layout({
-            name: 'dagre'
-        });
-        cy.fit();
-        console.log(data);
-    });
-    */
     function executeQuery(){
         cy = createCY();
         var vertexes = [];
@@ -80,11 +48,10 @@ $(function(){ // on dom ready
                 }
                 else
                 {
-                    return {vtx: data};
+                    return data;
                 }
             })
             .then(function(data){
-                console.log(data);
                 for (var v in data.vtx)
                     vertexes.push({data: {id: data.vtx[v].id, name: data.vtx[v].name}})
                 for (var e in data.edg)
@@ -93,34 +60,62 @@ $(function(){ // on dom ready
                 cy.add(vertexes);
                 cy.add(edges);
                 if (data.edg === undefined)
-                    cy.layout({
-                        name: 'circle'
-                    })
-                else
-                    cy.layout({
-                        name: 'dagre'
+                {
+                     $('#option_table').append('<tr><td>Name</td><td>Faculty</td><td>Year</td></tr>');
+                    for (var i in data)
+                        $('#option_table').append('<tr><td><a href="#">'+
+                            data[i].name + '</td></a>' +
+                            '<td>' + data[i].faculty + '</td>' +
+                            '<td>' + data[i].year + '</td>' + '</tr>');
+                    $('#option_table').find('tr').click(function(){
+                        $('.btn').button('loading');
+                        $('#search').button('loading');
+                        $("#option_table").empty();
+
+                        var idx = $(this).index() - 1;
+                        //FIXME: Duplicate code
+                        return $.ajax('http://localhost:8080?id=' + data[idx].id, {}).then(function(new_data){
+                            $('#search').button('reset');
+                            $('.btn').button('reset');
+
+                            cy = createCY();
+                            vertexes = [{data: {id: data[idx].id, name: data[idx].name}}];
+                            edges = [];
+                            for (var v in new_data.vtx)
+                                vertexes.push({data: {id: new_data.vtx[v].id, name: new_data.vtx[v].name}})
+                            for (var e in new_data.edg)
+                                edges.push({data: {source: new_data.edg[e].from, target: new_data.edg[e].to}});
+                            cy.add(vertexes);
+                            cy.add(edges);
+                            cy.layout({
+                                name: 'dagre'
+                            });
+                            cy.fit();
+                        });
                     });
-                cy.fit();
-                cy.on('tap', 'node', function(){
-                    $('#search').val(this.data('name'))
+                }
+                cy.layout({
+                    name: 'dagre'
                 });
 
+                cy.fit();
                 $('#search').button('reset');
                 $('.btn').button('reset');
 
             }).fail(function(err){
                 $("#alert").removeClass('hidden');
-                console.error(err);
                 $('#search').button('reset');
                 $('.btn').button('reset');
+                console.error(err);
             });
     }
-    $('#search').keypress(function (e) {
+    $('#search').keypress(function (e){
         if (e.which == 13)
             executeQuery();
     });
 
-    $('.btn').on('click', function() {
+    $('#confirm').on('click', function(){
         executeQuery();
     });
+
 });
