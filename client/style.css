@@ -27,7 +27,7 @@ body {
 table {
     position: absolute;
     z-index: 9999;
-    margin-top: 2em;
+    margin-top: 4em;
     margin-left: 2em;
 }
 

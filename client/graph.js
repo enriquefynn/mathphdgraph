@@ -78,6 +78,7 @@ $(function(){ // on dom ready
                             $('#search').button('reset');
                             $('.btn').button('reset');
 
+
                             cy = createCY();
                             vertexes = [{data: {id: data[idx].id, name: data[idx].name}}];
                             edges = [];
@@ -101,11 +102,13 @@ $(function(){ // on dom ready
                 cy.fit();
                 $('#search').button('reset');
                 $('.btn').button('reset');
+                
 
             }).fail(function(err){
                 $("#alert").removeClass('hidden');
                 $('#search').button('reset');
                 $('.btn').button('reset');
+
                 console.error(err);
             });
     }
