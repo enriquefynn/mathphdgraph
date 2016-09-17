@@ -1,6 +1,6 @@
 #Math PhD Graph
 
-With this you can get the full ancestry of the Mathematics academia in a visually appealing graph, hosted on [mathphdgraph.com](http://phdmathgraph.com)
+With this you can get the full ancestry of the Mathematics academia in a visually appealing graph, hosted on [phdmathgraph.com](http://phdmathgraph.com)
 
 You can also just use it's methods like a library.
 
