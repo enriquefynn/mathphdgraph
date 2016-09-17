@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="style.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+        <meta charset=utf-8 />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+        <title>Graphs</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+        <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
+        <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.1.2/cytoscape-dagre.js"></script>
+        <script src="graph.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input id="search" type="text" class="form-control" placeholder="Search" data-loading-text="">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Fetching data">Go!</button>
+                </span>
+            </div>
+        </div>
+        <div id="alert" class="col-lg-2 alert alert-danger hidden" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            Nothing found :-/
+        </div>
+        <div id="cy"></div>
+        <footer>
+            <p><a target="_blank" href="https://github.com/enriquefynn/mathphdgraph"><i class="fa fa-github" aria-hidden="true" style="font-size:27px"></i></a> This was done using the <a target="_blank" href="https://www.genealogy.math.ndsu.nodak.edu/">Mathematics Genealogy Project</a>. If you don't find the vertex you're looking for here, please <a target="_blank" href="https://www.genealogy.math.ndsu.nodak.edu/submit.php">contribute</a> to the project.</p>
+        </footer>
+    </body>
+</html>

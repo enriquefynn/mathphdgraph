@@ -1,0 +1,20 @@
+{
+  "name": "graph_euler",
+  "version": "0.0.1",
+  "description": "Based on the mathematics genealogy project to make graphs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fynn",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "cheerio": "^0.22.0",
+    "cheerio-tableparser": "^1.0.1",
+    "express": "^4.14.0",
+    "html-entities": "^1.2.0",
+    "redis": "^2.6.2",
+    "request": "^2.74.0"
+  }
+}
