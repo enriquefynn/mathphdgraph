@@ -63,8 +63,8 @@ $(function(){ // on dom ready
                 {
                      $('#option_table').append('<tr><td>Name</td><td>Faculty</td><td>Year</td></tr>');
                     for (var i in data)
-                        $('#option_table').append('<tr><td><a href="#">'+
-                            data[i].name + '</td></a>' +
+                        $('#option_table').append('<tr><td>'+
+                            data[i].name + '</td>' +
                             '<td>' + data[i].faculty + '</td>' +
                             '<td>' + data[i].year + '</td>' + '</tr>');
                     $('#option_table').find('tr').click(function(){
