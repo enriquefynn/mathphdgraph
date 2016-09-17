@@ -32,11 +32,11 @@ table {
 }
 
 
-footer {
+.footer {
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 25px;
+    min-height: 25px;
     width: 100%;
     text-align: center;
     background: rgba(204, 204, 204, 0.5);
