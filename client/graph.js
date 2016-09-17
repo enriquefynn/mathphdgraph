@@ -30,6 +30,7 @@ $(function(){ // on dom ready
     }
     var cy = createCY();
     function executeQuery(){
+        $("#option_table").empty();
         cy = createCY();
         var vertexes = [];
         var edges = [];
@@ -70,7 +71,6 @@ $(function(){ // on dom ready
                     $('#option_table').find('tr').click(function(){
                         $('.btn').button('loading');
                         $('#search').button('loading');
-                        $("#option_table").empty();
 
                         var idx = $(this).index() - 1;
                         //FIXME: Duplicate code
