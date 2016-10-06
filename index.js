@@ -4,6 +4,8 @@ const promise = require('bluebird');
 const redis = require('redis');
 const express = require('express');
 const app = express();
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('names.sql');
 
 var cache = redis.createClient();
 promise.promisifyAll(redis.RedisClient.prototype);
@@ -13,16 +15,10 @@ var searchById = (id) => {
     var p = promise.defer();
     cache.getAsync(id).then(data => {
         if (data == null)
-            return http_methods.getInfo(id);
+            p.resolve([]);
         else
             p.resolve(JSON.parse(data));
-    })
-    .then(data => {
-        if (data !== undefined)
-            cache.set(id, JSON.stringify(data));
-        p.resolve(data);
-    })
-    .catch(err => {p.reject(err);});
+    }).catch(err => {p.reject(err);});
     return p.promise;
 };
 
@@ -91,6 +87,16 @@ app.get('/search', (req, res) => {
         res.status(400).send('No name specified');
         return;
     }
+
+    console.log('Search:', req.query.name);
+    var p = promise.defer();
+    db.exec('SELECT * FROM USER WHERE Name LIKE \"%' + req.query.name + '%\"', function(err, row) {
+        if (err)
+            console.error(err);
+        else
+            console.log(row);
+    });
+
     http_methods.getSearchPage(req.query.name).then(data => {
         res.send(data);
     }).catch(err => {

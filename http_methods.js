@@ -52,7 +52,7 @@ function parse_by_id_or_table(body){
         {
             //Does it have a table?
             var data = $('table').parsetable();
-            if (data === null) {pro.reject('table not found'); return;} //Nothing that I know of
+            if (data === null) {return promise.reject('table not found')} //Nothing that I know of
             var name_id_json = [];
             var re = /id=(\d+)\"\>(.+)\</;
             for (var i = 0; i < data[0].length; ++i)
@@ -84,7 +84,7 @@ function parse_by_id_or_table(body){
         }
 
         var p = $('p');
-        var re = /Advisor.*?id=(\d*)\">(.*?)<\/a>/g;;
+        var re = /[Advisor|Mentor].*?id=(\d*)\">(.*?)<\/a>/g;;
         var re_id = /.*MGP ID of (\d+).*/;
         var re_for_find_p = /Advisor/;
         while(p !== null && p.html().match(re_for_find_p) == null)
@@ -101,8 +101,6 @@ function parse_by_id_or_table(body){
                     {
                         id: m[1],
                         name: entities.decode(m[2]),
-                        faculty: faculty,
-                        year: year 
                     });
         } while (m);
 
@@ -114,7 +112,9 @@ function parse_by_id_or_table(body){
                 break;
         }
 
-        pro.resolve({name: name, id: id[1], advisors: name_id_advisor_json});
+        pro.resolve({name: name, id: id[1], 
+            faculty: faculty, year: year, 
+            advisors: name_id_advisor_json});
     }
     catch(err)
     {
@@ -126,19 +126,27 @@ function parse_by_id_or_table(body){
 
 module.exports.getInfo = function(id) {
     var pro = promise.defer();
-    request(
-        {
-            url: 'https://www.genealogy.math.ndsu.nodak.edu/id.php?id=' + id,
-            method: 'GET',
-        }, function(err, res, body) {
-            var entities = new Entities();
-            if (err)
+    try
+    {
+        request(
             {
-                promise.reject(err);
-                return;
+                url: 'https://www.genealogy.math.ndsu.nodak.edu/id.php?id=' + id,
+                method: 'GET',
+            }, function(err, res, body) {
+                var entities = new Entities();
+                if (err)
+                {
+                    console.error("THIS ERROR", err);
+                    pro.reject(err);
+                }
+                else
+                    pro.resolve(parse_by_id_or_table(body));
             }
-            pro.resolve(parse_by_id_or_table(body));
-        }
-    );
+        );
+    }
+    catch(err)
+    {
+        pro.reject(err);
+    }
     return pro.promise;
 }
