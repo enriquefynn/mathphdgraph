@@ -29,10 +29,12 @@ $(function(){ // on dom ready
             });
     }
     var cy = createCY();
+    var vertexes = [];
+    var edges = [];
     function executeQuery(){
         cy = createCY();
-        var vertexes = [];
-        var edges = [];
+        vertexes = [];
+        edges = [];
         
         $("#alert").addClass('hidden');
         $('.btn').button('loading');
@@ -56,12 +58,12 @@ $(function(){ // on dom ready
                     vertexes.push({data: {id: data.vtx[v].id, name: data.vtx[v].name}})
                 for (var e in data.edg)
                     edges.push({data: {source: data.edg[e].from, target: data.edg[e].to}});
-
                 cy.add(vertexes);
                 cy.add(edges);
+
                 if (data.edg === undefined)
                 {
-                     $('#option_table').append('<tr><td>Name</td><td>Faculty</td><td>Year</td></tr>');
+                    $('#option_table').append('<tr><td>Name</td><td>Faculty</td><td>Year</td></tr>');
                     for (var i in data)
                         $('#option_table').append('<tr><td>'+
                             data[i].name + '</td>' +
@@ -122,4 +124,32 @@ $(function(){ // on dom ready
         executeQuery();
     });
 
+    $('#dot').on('click', function(){
+        download('graph.dot', to_dot(vertexes, edges));
+    });
+
+    function to_dot(vertexes, edges){
+        var dot_file = 'digraph G {\n\tnode [shape=\"box\"];\n\tnodesep=0.7;\n'
+        for (let v in vertexes)
+            dot_file += '\t' + vertexes[v].data.id + 
+            ' [label = \"' + vertexes[v].data.name + '\"]\n'
+        for (let e in edges)
+            dot_file += '\t' + edges[e].data.source + '->' + edges[e].data.target + ';\n'
+        dot_file += '}\n'
+        return dot_file;
+    }
+    function download(filename, text) {
+        var pom = document.createElement('a');
+        pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        pom.setAttribute('download', filename);
+
+        if (document.createEvent) {
+            var event = document.createEvent('MouseEvents');
+            event.initEvent('click', true, true);
+            pom.dispatchEvent(event);
+        }
+        else {
+            pom.click();
+        }
+    }
 });

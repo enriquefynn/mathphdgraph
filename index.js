@@ -90,12 +90,12 @@ app.get('/search', (req, res) => {
 
     console.log('Search:', req.query.name);
     var p = promise.defer();
-    db.exec('SELECT * FROM USER WHERE Name LIKE \"%' + req.query.name + '%\"', function(err, row) {
+    /*db.exec('SELECT * FROM USER WHERE Name LIKE \"%' + req.query.name + '%\"', function(err, row) {
         if (err)
             console.error(err);
         else
-            console.log(row);
-    });
+            console.log('row:', row);
+    });*/
 
     http_methods.getSearchPage(req.query.name).then(data => {
         res.send(data);
