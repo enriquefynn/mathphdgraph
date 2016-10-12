@@ -34,13 +34,11 @@ var constructTree = (id) => {
         if (promise_list.length == 0)
         {
             tree_p.resolve(tree);
-            console.log(tree);
             return;
         }
         var next_p = {promises: [], ids: []};
         var idx = 0;
         return promise.each(promise_list, data => {
-            console.log(data);
             tree.vtx.push({id: ids[idx], name: data.name, faculty: data.faculty, year: data.year});
             for (var i in data.advisors)
             {
