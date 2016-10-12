@@ -5,7 +5,7 @@ const redis = require('redis');
 const express = require('express');
 const app = express();
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('names.sql');
+const db = new sqlite3.Database('./names.sql');
 
 var cache = redis.createClient();
 promise.promisifyAll(redis.RedisClient.prototype);
@@ -23,33 +23,38 @@ var searchById = (id) => {
 };
 
 var constructTree = (id) => {
+    
     var tree_p = promise.defer();
 
     var tree = {vtx: [], edg: []};
     var all_ids = new Set();
     var nodesToVisit = [searchById(id)];
-    
+
     var visitNext = (promise_list, ids) => {
         if (promise_list.length == 0)
         {
             tree_p.resolve(tree);
+            console.log(tree);
             return;
         }
         var next_p = {promises: [], ids: []};
         var idx = 0;
         return promise.each(promise_list, data => {
+            console.log(data);
+            tree.vtx.push({id: ids[idx], name: data.name, faculty: data.faculty, year: data.year});
             for (var i in data.advisors)
             {
-                if (all_ids.has(data.advisors[i].id))
+                if (all_ids.has(data.advisors[i]))
                     continue;
-                next_p.promises.push(searchById(data.advisors[i].id));
-                next_p.ids.push(data.advisors[i].id);
-                all_ids.add(data.advisors[i].id);
-                tree.vtx.push(data.advisors[i]);
-                tree.edg.push({to: ids[idx], from: data.advisors[i].id});
+
+                next_p.promises.push(searchById(data.advisors[i]));
+                next_p.ids.push(data.advisors[i]);
+                all_ids.add(data.advisors[i]);
+                tree.edg.push({to: ids[idx], from: data.advisors[i]});
             }
             idx+=1;
-        }).then(() => {
+        })
+        .then(() => {
             visitNext(next_p.promises, next_p.ids); 
         })
         .catch(err => {tree_p.reject(err);});
@@ -74,7 +79,8 @@ app.get('/', (req, res) => {
 
     constructTree(req.query.id).then(data => {
         res.send(data);
-    }).catch(err => {
+    })
+    .catch(err => {
         console.error(err);
         res.status(400).send('Error happened');
     });

@@ -55,7 +55,8 @@ $(function(){ // on dom ready
             })
             .then(function(data){
                 for (var v in data.vtx)
-                    vertexes.push({data: {id: data.vtx[v].id, name: data.vtx[v].name}})
+                    vertexes.push({data: {id: data.vtx[v].id, name: data.vtx[v].name, 
+                        faculty: data.vtx[v].faculty, year: data.vtx[v].year}})
                 for (var e in data.edg)
                     edges.push({data: {source: data.edg[e].from, target: data.edg[e].to}});
                 cy.add(vertexes);
@@ -131,10 +132,18 @@ $(function(){ // on dom ready
     function to_dot(vertexes, edges){
         var dot_file = 'digraph G {\n\tnode [shape=\"box\"];\n\tnodesep=0.7;\n'
         for (let v in vertexes)
+        {
             dot_file += '\t' + vertexes[v].data.id + 
-            ' [label = \"' + vertexes[v].data.name + '\"]\n'
+            ' [label = \"' + vertexes[v].data.name + '\n';
+            if (vertexes[v].data.faculty != null)
+                dot_file += vertexes[v].data.faculty;
+            if (vertexes[v].data.year != null)
+                dot_file += ' ' + vertexes[v].data.year;
+            dot_file += '\"]\n';
+        }
         for (let e in edges)
             dot_file += '\t' + edges[e].data.source + '->' + edges[e].data.target + ';\n'
+
         dot_file += '}\n'
         return dot_file;
     }
