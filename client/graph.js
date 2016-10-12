@@ -54,7 +54,6 @@ $(function(){ // on dom ready
                 }
             })
             .then(function(data){
-                console.log(data);
                 for (var v in data.vtx)
                     vertexes.push({data: {id: data.vtx[v].id, name: data.vtx[v].name, 
                         faculty: data.vtx[v].faculty, year: data.vtx[v].year}});
@@ -137,12 +136,12 @@ $(function(){ // on dom ready
         for (let v in vertexes)
         {
             dot_file += '\t' + vertexes[v].data.id + 
-            ' [label = \"' + vertexes[v].data.name + '\n';
-            if (vertexes[v].data.faculty != null)
-                dot_file += vertexes[v].data.faculty;
-            if (vertexes[v].data.year != null)
-                dot_file += ' ' + vertexes[v].data.year;
-            dot_file += '\"]\n';
+            ' [label = <' + vertexes[v].data.name + '<br/>';
+            if (vertexes[v].data.faculty != null && vertexes[v].data.faculty != '')
+                dot_file += '<FONT POINT-SIZE=\"12\">' + vertexes[v].data.faculty + '</FONT>';
+            if (vertexes[v].data.year != null && vertexes[v].data.year != '')
+                dot_file += '<FONT POINT-SIZE=\"12\"> ' + vertexes[v].data.year + '</FONT>';
+            dot_file += '>]\n';
         }
         for (let e in edges)
             dot_file += '\t' + edges[e].data.source + '->' + edges[e].data.target + ';\n'
