@@ -19,14 +19,12 @@ function getAll(){
     {
         return http_methods.getInfo(idx).then(data => {
             console.log(data);
-           cache.set(data.id, JSON.stringify({advisors: data.advisors}));
-            db.run('INSERT INTO USER VALUES ($Name, $Id, $Faculty, $Year)', 
-                {
-                    $Name: data.name,
-                    $Id: data.id,
-                    $Faculty: data.faculty,
-                    $Year: data.year
-                });
+            cache.set(data.id, JSON.stringify({
+               name: data.name,
+               faculty: data.faculty,
+               year: data.year,
+               advisors: data.advisors.map(el => el.id)
+            }));
         }).then(() => {
             if (idx < max)
             {
