@@ -85,8 +85,8 @@ $(function(){ // on dom ready
 
 
                             cy = createCY();
-                            vertexes = [{data: {id: data.vtx[v].id, name: data.vtx[v].name, 
-                                faculty: data.vtx[v].faculty, year: data.vtx[v].year}}];
+                            vertexes = [{data: {id: data[idx].id, name: data[idx].name, 
+                                faculty: data[idx].faculty, year: data[idx].year}}];
                             edges = [];
                             for (var v in new_data.vtx)
                                 vertexes.push({data: {id: new_data.vtx[v].id, name: new_data.vtx[v].name, 
