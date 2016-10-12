@@ -54,9 +54,10 @@ $(function(){ // on dom ready
                 }
             })
             .then(function(data){
+                console.log(data);
                 for (var v in data.vtx)
                     vertexes.push({data: {id: data.vtx[v].id, name: data.vtx[v].name, 
-                        faculty: data.vtx[v].faculty, year: data.vtx[v].year}})
+                        faculty: data.vtx[v].faculty, year: data.vtx[v].year}});
                 for (var e in data.edg)
                     edges.push({data: {source: data.edg[e].from, target: data.edg[e].to}});
                 cy.add(vertexes);
@@ -84,10 +85,12 @@ $(function(){ // on dom ready
 
 
                             cy = createCY();
-                            vertexes = [{data: {id: data[idx].id, name: data[idx].name}}];
+                            vertexes = [{data: {id: data.vtx[v].id, name: data.vtx[v].name, 
+                                faculty: data.vtx[v].faculty, year: data.vtx[v].year}}];
                             edges = [];
                             for (var v in new_data.vtx)
-                                vertexes.push({data: {id: new_data.vtx[v].id, name: new_data.vtx[v].name}})
+                                vertexes.push({data: {id: new_data.vtx[v].id, name: new_data.vtx[v].name, 
+                                    faculty: new_data.vtx[v].faculty, year: new_data.vtx[v].year}})
                             for (var e in new_data.edg)
                                 edges.push({data: {source: new_data.edg[e].from, target: new_data.edg[e].to}});
                             cy.add(vertexes);
