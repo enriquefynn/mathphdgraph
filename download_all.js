@@ -1,9 +1,7 @@
+#!/usr/bin/env node
 'use strict';
 const http_methods = require('./http_methods');
 const promise = require('bluebird');
-
-var max = 255426;
-var idx = 1;
 
 function getAll() {
   try {
@@ -37,7 +35,10 @@ function getAll() {
   }
 }
 
-if (process.argv.length > 1) {
+var max = 255426;
+var idx = 1;
+console.log(process.argv)
+if (process.argv.length > 2) {
   idx = parseInt(process.argv[1])
   max = parseInt(process.argv[2])
 }
