@@ -2,10 +2,6 @@
 const http_methods = require('./http_methods');
 const promise = require('bluebird');
 
-// var cache = redis.createClient();
-promise.promisifyAll(redis.RedisClient.prototype);
-// cache.on('error', console.error);
-
 var max = 255426;
 var idx = 1;
 
