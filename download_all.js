@@ -38,7 +38,7 @@ function getAll() {
 }
 
 if (process.argv.length > 1) {
-  min = parseInt(process.argv[1])
+  idx = parseInt(process.argv[1])
   max = parseInt(process.argv[2])
 }
 
