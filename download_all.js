@@ -37,10 +37,9 @@ function getAll() {
 
 var max = 255426;
 var idx = 1;
-console.log(process.argv)
 if (process.argv.length > 2) {
-  idx = parseInt(process.argv[1])
-  max = parseInt(process.argv[2])
+  idx = parseInt(process.argv[2])
+  max = parseInt(process.argv[3])
 }
 
 getAll();

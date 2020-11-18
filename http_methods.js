@@ -8,7 +8,7 @@ var cheerio = require('cheerio');
 var cheerioTableparser = require('cheerio-tableparser');
 var Entities = require('html-entities').XmlEntities;
 
-
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 module.exports.getSearchPage = function (name) {
   var pro = promise.defer();
   var post_data = querystring.stringify({
@@ -128,11 +128,12 @@ module.exports.getInfo = function (id) {
       }, function (err, res, body) {
         var entities = new Entities();
         if (err) {
-          console.error("THIS ERROR", err);
+          console.error("ERROR", err);
           pro.reject(err);
         }
-        else
+        else {
           pro.resolve(parse_by_id_or_table(body));
+        }
       }
     );
   }
