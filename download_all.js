@@ -6,9 +6,9 @@ const promise = require('bluebird');
 function getAll() {
   try {
     return http_methods.getInfo(idx).then(data => {
-      let advisors = data.advisors.map(el => el.id).toString()
+      let advisors = data.advisors.map(el => el.id).join(', ')
 
-      let d = `${data.id}, ${data.name}, ${data.faculty}, ${data.year}, ${advisors}`
+      let d = `${data.id}, ${data.name}, ${data.faculty} - ${data.year}, ${advisors}`
       console.log(d);
     }).then(() => {
       if (idx < max) {
